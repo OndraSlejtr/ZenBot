@@ -33,10 +33,12 @@ export const deleteOldDMs = async (username: string) => {
         const dmChannel = await user.createDM();
         const messages = await dmChannel.messages.fetch({ limit: 99 });
 
-        messages.each(async (m) => {
-            if (!m.author.bot) return;
-            await m.delete();
-        });
+        await Promise.all(
+            messages.map(async (m) => {
+                if (!m.author.bot) return;
+                return m.delete();
+            })
+        );
     }
 };
 
@@ -73,10 +75,25 @@ const generateMissingSignupDays = (raids: Date[]): string => {
         return daysFromNowInCzech();
     });
 
-    return `${days.length >= 3 ? days.slice(0, days.length - 2).join(', ') : ''}${days.length >= 2 ? days[days.length - 2] + ' a ' : ''}${
+    return `${days.length >= 3 ? days.slice(0, days.length - 2).join(', ') + ', ' : ''}${days.length >= 2 ? days[days.length - 2] + ' a ' : ''}${
         days[days.length - 1]
     }`;
 };
+
+const pickRandom = (array: any[]) => array[Math.floor(Math.random() * array.length)];
+
+const generateRandomPlea = (playerClass: string) =>
+    pickRandom([
+        'než se Erdmoon oběsí',
+        'než Bugridu odvezou',
+        'než Cynikovi praskne žilka',
+        `než Anethea nabere novýho ${playerClass.toLocaleLowerCase()}${playerClass !== 'Rogue' && playerClass !== 'Mage' ? 'a' : ''}`,
+    ]);
+
+const generateRandomGreeting = () =>
+    pickRandom(['Čau', 'Čauky mňauky', 'Čauko ako', 'Zdarec', 'Zdařbůh', 'Čest práci', 'Dobrý ještěr', 'Pozdrav pandu', 'Tě péro', 'Hej bro']);
+
+const generateRandomEmoji = () => pickRandom([':heart:', ':nerd:', ':frog:', ':panda_face:', ':pray:']);
 
 export const sendSignupNotifications = async (upcomingRaids: WowAuditRaidShortOverview[]) => {
     const completeSlackerList = new Map<WowAuditRaider, Date[]>();
@@ -106,13 +123,13 @@ export const sendSignupNotifications = async (upcomingRaids: WowAuditRaidShortOv
 
         await deleteOldDMs(slacker.note);
 
-        setTimeout
+        setTimeout;
 
         await sendDM(
             slacker.note,
-            `Čau, zapomněl ses zapsat na raid ${generateMissingSignupDays(
+            `${generateRandomGreeting()}, zapomněl(a) ses zapsat na raid ${generateMissingSignupDays(
                 missingRaidDates
-            )}. Dej nám prosím co nejdřív vědět jak to vypadá, než se Erdmoon oběsí. Dík! :heart:`
+            )}. Dej nám prosím co nejdřív vědět jak to vypadá, ${generateRandomPlea(slacker.class)}. Dík ${generateRandomEmoji()}`
         );
     }
 

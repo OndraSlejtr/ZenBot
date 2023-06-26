@@ -40,9 +40,9 @@ export const getRaidersWithoutSignups = async (raid: RaidID, raiders: WowAuditRa
             // Using flat map to skip over raiders who we couldn't pair
             const raider = findRaider(raiders, signup.character.name);
 
-            if (!raider) {
+            if (!raider?.note) {
                 console.error(
-                    `We were unable to match character ${signup.character.name} with any known Raider in application database. They will be skipped.`
+                    `Unsigned raider ${signup.character.name} doesn't have their Discord ID set in Wowaudit note. They will be skipped.`
                 );
                 return [];
             }
@@ -66,8 +66,11 @@ export const getUpcomingRaids = async (daysForward: number, ignoreFriday: boolea
     
     const raidsInRange = raids.filter((raid) => {
         const raidDate = new Date(raid.date);
-        return raidDate > today && raidDate < cutoffDate && (!ignoreFriday || raidDate.getDay() != FRIDAY_IN_WEEK);
+        raidDate.setHours(18, 45, 0);
+        return raidDate >= today && raidDate < cutoffDate && (!ignoreFriday || raidDate.getDay() != FRIDAY_IN_WEEK);
     });
+
+    console.log('raidsInRange', raidsInRange)
 
     return raidsInRange;
 };

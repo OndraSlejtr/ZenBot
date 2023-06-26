@@ -36,7 +36,7 @@ app.listen(port, () => {
 // KILLER FEATURE: Generate link to click if you can come (quick accept)    CANNOT BE DONE :(
 //
 // Nice to have:
-// Generate random message format from bot (random greeting, emoji, different reason for appeal...)
+// Generate random message format from bot (random greeting, emoji, different reason for appeal...) DONE
 // Require note for tentative or late signups?
 // Correct date spelling gen xd
 //
