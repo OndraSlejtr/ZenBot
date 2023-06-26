@@ -110,7 +110,7 @@ export const sendSignupNotifications = async (upcomingRaids: WowAuditRaidShortOv
             return;
         }
 
-        await deleteOldDMs(slacker.note);
+        // await deleteOldDMs(slacker.note);
         await sendDM(
             slacker.note,
             `Čau, zapomněl ses zapsat na raid ${generateMissingSignupDays(
