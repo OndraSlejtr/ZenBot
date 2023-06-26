@@ -33,9 +33,9 @@ export const deleteOldDMs = async (username: string) => {
         const dmChannel = await user.createDM();
         const messages = await dmChannel.messages.fetch({ limit: 99 });
 
-        messages.each((m) => {
+        messages.each(async (m) => {
             if (!m.author.bot) return;
-            m.delete();
+            await m.delete();
         });
     }
 };
@@ -105,6 +105,9 @@ export const sendSignupNotifications = async (upcomingRaids: WowAuditRaidShortOv
         }
 
         await deleteOldDMs(slacker.note);
+
+        setTimeout
+
         await sendDM(
             slacker.note,
             `Čau, zapomněl ses zapsat na raid ${generateMissingSignupDays(
