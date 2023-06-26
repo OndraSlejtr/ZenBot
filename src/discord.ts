@@ -82,12 +82,18 @@ const generateMissingSignupDays = (raids: Date[]): string => {
 
 const pickRandom = (array: any[]) => array[Math.floor(Math.random() * array.length)];
 
-const generateRandomPlea = () => pickRandom(['než se Erdmoon oběsí', 'než Bugridu odvezou', 'než Cynikovi praskne žilka']);
+const generateRandomPlea = (playerClass: string) =>
+    pickRandom([
+        'než se Erdmoon oběsí',
+        'než Bugridu odvezou',
+        'než Cynikovi praskne žilka',
+        `než Anethea nabere novýho ${playerClass.toLocaleLowerCase()}${playerClass !== 'Rogue' && playerClass !== 'Mage' ? 'a' : ''}`,
+    ]);
 
 const generateRandomGreeting = () =>
     pickRandom(['Čau', 'Čauky mňauky', 'Čauko ako', 'Zdarec', 'Zdařbůh', 'Čest práci', 'Dobrý ještěr', 'Pozdrav pandu', 'Tě péro', 'Hej bro']);
 
-const generateRandomEmoji = () => pickRandom([':heart:', ':nerd:', ':frog:', ':panda_face:', ':pray:', ]);
+const generateRandomEmoji = () => pickRandom([':heart:', ':nerd:', ':frog:', ':panda_face:', ':pray:']);
 
 export const sendSignupNotifications = async (upcomingRaids: WowAuditRaidShortOverview[]) => {
     const completeSlackerList = new Map<WowAuditRaider, Date[]>();
@@ -123,7 +129,7 @@ export const sendSignupNotifications = async (upcomingRaids: WowAuditRaidShortOv
             slacker.note,
             `${generateRandomGreeting()}, zapomněl(a) ses zapsat na raid ${generateMissingSignupDays(
                 missingRaidDates
-            )}. Dej nám prosím co nejdřív vědět jak to vypadá, ${generateRandomPlea()}. Dík ${generateRandomEmoji()}`
+            )}. Dej nám prosím co nejdřív vědět jak to vypadá, ${generateRandomPlea(slacker.class)}. Dík ${generateRandomEmoji()}`
         );
     }
 
