@@ -66,8 +66,12 @@ export const getUpcomingRaids = async (daysForward: number, ignoreFriday: boolea
     
     const raidsInRange = raids.filter((raid) => {
         const raidDate = new Date(raid.date);
+        raidDate.setHours(18, 45, 0);
         return raidDate >= today && raidDate < cutoffDate && (!ignoreFriday || raidDate.getDay() != FRIDAY_IN_WEEK);
     });
+
+    console.log(raids)
+    console.log(raidsInRange)
 
     return raidsInRange;
 };

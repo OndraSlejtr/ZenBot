@@ -80,6 +80,15 @@ const generateMissingSignupDays = (raids: Date[]): string => {
     }`;
 };
 
+const pickRandom = (array: any[]) => array[Math.floor(Math.random() * array.length)];
+
+const generateRandomPlea = () => pickRandom(['než se Erdmoon oběsí', 'než Bugridu odvezou', 'než Cynikovi praskne žilka']);
+
+const generateRandomGreeting = () =>
+    pickRandom(['Čau', 'Čauky mňauky', 'Čauko ako', 'Zdarec', 'Zdařbůh', 'Čest práci', 'Dobrý ještěr', 'Pozdrav pandu', 'Tě péro', 'Hej bro']);
+
+const generateRandomEmoji = () => pickRandom([':heart:', ':nerd:', ':frog:', ':panda_face:', ':pray:', ]);
+
 export const sendSignupNotifications = async (upcomingRaids: WowAuditRaidShortOverview[]) => {
     const completeSlackerList = new Map<WowAuditRaider, Date[]>();
     const raiders = await getRaiders();
@@ -112,9 +121,9 @@ export const sendSignupNotifications = async (upcomingRaids: WowAuditRaidShortOv
 
         await sendDM(
             slacker.note,
-            `Čau, zapomněl ses zapsat na raid ${generateMissingSignupDays(
+            `${generateRandomGreeting()}, zapomněl ses zapsat na raid ${generateMissingSignupDays(
                 missingRaidDates
-            )}. Dej nám prosím co nejdřív vědět jak to vypadá, než se Erdmoon oběsí. Dík! :heart:`
+            )}. Dej nám prosím co nejdřív vědět jak to vypadá, ${generateRandomPlea()}. Dík ${generateRandomEmoji()}`
         );
     }
 
