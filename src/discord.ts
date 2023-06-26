@@ -56,7 +56,7 @@ export const sendDM = async (username: string, text: string) => {
     if (!userProfile) {
         console.error(`Failed to find Discord guild member with username ${username}. Message won't be sent.`);
     } else {
-        console.debug(`Sent message '${text}' to ${username}`);
+        console.debug(`Sent message '${text}' to ${username}. Id: ${userProfile.id}`);
         try {
             discordClient.users.send(userProfile.id, text);
         } catch (err) {
