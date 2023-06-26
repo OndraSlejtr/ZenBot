@@ -87,7 +87,7 @@ const generateRandomPlea = (playerClass: string) =>
         'než se Erdmoon oběsí',
         'než Bugridu odvezou',
         'než Cynikovi praskne žilka',
-        `než Anethea nabere novýho ${playerClass.toLocaleLowerCase()}${playerClass !== 'Rogue' && playerClass !== 'Mage' ? 'a' : ''}`,
+        // `než Anethea nabere novýho ${playerClass.toLocaleLowerCase()}${playerClass !== 'Rogue' && playerClass !== 'Mage' ? 'a' : ''}`,
     ]);
 
 const generateRandomGreeting = () =>
