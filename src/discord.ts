@@ -118,4 +118,6 @@ export const sendSignupNotifications = async (upcomingRaids: WowAuditRaidShortOv
             )}. Dej nám prosím co nejdřív vědět jak to vypadá, než se Erdmoon oběsí. Dík! :heart:`
         );
     });
+
+    return completeSlackerList;
 };

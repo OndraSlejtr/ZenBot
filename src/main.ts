@@ -7,15 +7,15 @@ import 'dotenv/config';
 
 export const main = async () => {
     console.log('Starting app');
-    // await createClient();
+    await createClient();
 
     const upcomingRaids = await getUpcomingRaids(SIGNUP_CHECK_CUTOFF);
 
     console.log(upcomingRaids);
 
-    sendSignupNotifications(upcomingRaids);
+    const slackers = await sendSignupNotifications(upcomingRaids);
 
-    return upcomingRaids
+    return slackers
 };
 
 const app = express();
