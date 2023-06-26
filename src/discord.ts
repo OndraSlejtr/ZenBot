@@ -58,7 +58,7 @@ export const sendDM = async (username: string, text: string) => {
     } else {
         console.debug(`Sent message '${text}' to ${username}. Id: ${userProfile.id}`);
         try {
-            discordClient.users.send(userProfile.id, text);
+            return discordClient.users.send(userProfile.id, text);
         } catch (err) {
             console.error('Failed to send message', err);
         }
@@ -115,12 +115,13 @@ export const sendSignupNotifications = async (upcomingRaids: WowAuditRaidShortOv
         }
 
         // await deleteOldDMs(slacker.note);
-        await sendDM(
+        const w = await sendDM(
             slacker.note,
             `Čau, zapomněl ses zapsat na raid ${generateMissingSignupDays(
                 missingRaidDates
             )}. Dej nám prosím co nejdřív vědět jak to vypadá, než se Erdmoon oběsí. Dík! :heart:`
         );
+        console.log('w', w);
     });
 
     return completeSlackerList;
