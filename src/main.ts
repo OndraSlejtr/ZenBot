@@ -4,7 +4,7 @@ import { createClient, sendDM, sendSignupNotifications } from './discord';
 
 import 'dotenv/config';
 
-const main = async () => {
+export const main = async () => {
     console.log('Starting app');
     await createClient();
 
@@ -12,8 +12,6 @@ const main = async () => {
 
     sendSignupNotifications(upcomingRaids);
 };
-
-main();
 
 // Feature roadmap
 //
