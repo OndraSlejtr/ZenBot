@@ -121,7 +121,7 @@ export const sendSignupNotifications = async (upcomingRaids: WowAuditRaidShortOv
 
         await sendDM(
             slacker.note,
-            `${generateRandomGreeting()}, zapomněl ses zapsat na raid ${generateMissingSignupDays(
+            `${generateRandomGreeting()}, zapomněl(a) ses zapsat na raid ${generateMissingSignupDays(
                 missingRaidDates
             )}. Dej nám prosím co nejdřív vědět jak to vypadá, ${generateRandomPlea()}. Dík ${generateRandomEmoji()}`
         );
