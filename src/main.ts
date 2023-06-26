@@ -1,20 +1,29 @@
 import { SIGNUP_CHECK_CUTOFF } from './config';
-import { fetchRaids, getRaidersWithoutSignups, getUpcomingRaids } from './wowaudit';
+import { getUpcomingRaids } from './wowaudit';
 import { createClient, sendDM, sendSignupNotifications } from './discord';
-import { mapToDiscordUsername } from './players';
+import express from 'express';
 
 import 'dotenv/config';
 
-const main = async () => {
+export const main = async () => {
     console.log('Starting app');
     await createClient();
 
     const upcomingRaids = await getUpcomingRaids(SIGNUP_CHECK_CUTOFF);
-
-    sendSignupNotifications(upcomingRaids);
+    await sendSignupNotifications(upcomingRaids);
 };
 
-main();
+const app = express();
+const port = 3000;
+
+app.get('/check-signups', async (req: any, res: any) => {
+    await main();
+    res.send('Done');
+});
+
+app.listen(port, () => {
+    console.log(`App listening on port ${port}`);
+});
 
 // Feature roadmap
 //
@@ -22,9 +31,9 @@ main();
 // Do it in batch (more raids overlapping)  DONE
 // Delete your old messages to person before sending new ones   DONE
 // Run in cloud
-// Fetch Raiders and their Discord Usernames from WowAudit (single source of truth)
+// Fetch Raiders and their Discord Usernames from WowAudit (single source of truth) DONE
 //
-// KILLER FEATURE: Generate link to click if you can come (quick accept)
+// KILLER FEATURE: Generate link to click if you can come (quick accept)    CANNOT BE DONE :(
 //
 // Nice to have:
 // Generate random message format from bot (random greeting, emoji, different reason for appeal...)

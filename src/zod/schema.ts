@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { nullable, z } from 'zod';
 
 const raidShortOverview = z.object({
     id: z.number(),
@@ -56,6 +56,22 @@ export const raidDetailSchema = z.object({
     ),
 });
 
+const raiderSchema = z.object({
+    id: z.number(),
+    name: z.string(),
+    realm: z.string(),
+    class: z.string(),
+    role: z.string(),
+    rank: z.string(),
+    status: z.string(),
+    note: z.string().nullable(),
+    blizzard_id: z.number().nullable(),
+    tracking_since: z.string(),
+});
+
+export const raidersSchema = z.array(raiderSchema);
+
+export type WowAuditRaider = z.infer<typeof raiderSchema>;
 export type WowAuditRaidShortOverview = z.infer<typeof raidShortOverview>;
 export type WowAuditRaidList = z.infer<typeof innerRaidsSchema>;
 export type WowAuditRaidDetail = z.infer<typeof raidDetailSchema>;
