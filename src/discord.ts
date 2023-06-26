@@ -33,10 +33,12 @@ export const deleteOldDMs = async (username: string) => {
         const dmChannel = await user.createDM();
         const messages = await dmChannel.messages.fetch({ limit: 99 });
 
-        messages.each(async (m) => {
-            if (!m.author.bot) return;
-            await m.delete();
-        });
+        await Promise.all(
+            messages.map(async (m) => {
+                if (!m.author.bot) return;
+                return m.delete();
+            })
+        );
     }
 };
 
@@ -106,7 +108,7 @@ export const sendSignupNotifications = async (upcomingRaids: WowAuditRaidShortOv
 
         await deleteOldDMs(slacker.note);
 
-        setTimeout
+        setTimeout;
 
         await sendDM(
             slacker.note,
