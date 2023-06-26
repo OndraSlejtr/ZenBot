@@ -14,14 +14,16 @@ export const main = async () => {
     console.log(upcomingRaids);
 
     sendSignupNotifications(upcomingRaids);
+
+    return upcomingRaids
 };
 
 const app = express();
 const port = 3000;
 
 app.get('/', async (req: any, res: any) => {
-    await main();
-    res.send('Done.');
+    const u = await main();
+    res.send(u);
 });
 
 app.listen(port, () => {
