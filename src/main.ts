@@ -10,6 +10,8 @@ export const main = async () => {
 
     const upcomingRaids = await getUpcomingRaids(SIGNUP_CHECK_CUTOFF);
 
+    console.log(upcomingRaids);
+
     sendSignupNotifications(upcomingRaids);
 };
 
