@@ -1,7 +1,6 @@
 import { SIGNUP_CHECK_CUTOFF } from './config';
-import { fetchRaids, getRaidersWithoutSignups, getUpcomingRaids } from './wowaudit';
+import { getUpcomingRaids } from './wowaudit';
 import { createClient, sendDM, sendSignupNotifications } from './discord';
-import { mapToDiscordUsername } from './players';
 
 import 'dotenv/config';
 
@@ -22,9 +21,9 @@ main();
 // Do it in batch (more raids overlapping)  DONE
 // Delete your old messages to person before sending new ones   DONE
 // Run in cloud
-// Fetch Raiders and their Discord Usernames from WowAudit (single source of truth)
+// Fetch Raiders and their Discord Usernames from WowAudit (single source of truth) DONE
 //
-// KILLER FEATURE: Generate link to click if you can come (quick accept)
+// KILLER FEATURE: Generate link to click if you can come (quick accept)    CANNOT BE DONE :(
 //
 // Nice to have:
 // Generate random message format from bot (random greeting, emoji, different reason for appeal...)
