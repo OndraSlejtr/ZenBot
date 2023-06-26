@@ -5,7 +5,7 @@
     "scripts": {
         "start:dev": "npx nodemon",
         "build": "tsc",
-        "start": "npm run build && node build/main.js"
+        "start": "npx nodemon"
     },
     "author": "",
     "license": "ISC",
