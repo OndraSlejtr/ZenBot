@@ -1,13 +1,13 @@
 import { SIGNUP_CHECK_CUTOFF } from './config';
 import { getUpcomingRaids } from './wowaudit';
 import { createClient, sendDM, sendSignupNotifications } from './discord';
-import * as http from "http";
+import express from 'express';
 
 import 'dotenv/config';
 
 export const main = async () => {
     console.log('Starting app');
-    await createClient();
+    // await createClient();
 
     const upcomingRaids = await getUpcomingRaids(SIGNUP_CHECK_CUTOFF);
 
@@ -16,14 +16,17 @@ export const main = async () => {
     sendSignupNotifications(upcomingRaids);
 };
 
-http
-  .createServer(function (req, res) {
-    res.write("Running check!"); //write a response to the client
-    main();
-    res.end(); //end the response
-  })
-  .listen(3000); //the server object listens on port 8080
+const app = express();
+const port = 3000;
 
+app.get('/', async (req: any, res: any) => {
+    await main();
+    res.send('Done.');
+});
+
+app.listen(port, () => {
+    console.log(`Example app listening on port ${port}`);
+});
 
 // Feature roadmap
 //
