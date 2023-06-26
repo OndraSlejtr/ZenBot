@@ -10,7 +10,7 @@ export const createClient = async () => {
     });
 
     discordClient.once(Events.ClientReady, async (c) => {
-        console.log(`Ready! Logged in as ${c.user.tag}`);
+        console.log(`Discord client ready! Logged in as ${c.user.tag}`);
     });
 
     await discordClient.login(process.env.BOT_TOKEN);
@@ -28,12 +28,8 @@ export const deleteOldDMs = async (username: string) => {
         console.error(`Failed to find Discord guild member with username ${username}. Will not delate old messages.`);
     } else {
         console.log('Deleting old DMs');
-        // const dms = (await discordClient.users.fetch(userProfile.id)).dmChannel;
-        // const messageManager = dms?.messages;
-        // const messages = await messageManager!.channel.messages.fetch({ limit: 99 });
 
         const user = await discordClient.users.fetch(userProfile.id);
-        console.log(user);
         const dmChannel = await user.createDM();
         const messages = await dmChannel.messages.fetch({ limit: 99 });
 
@@ -41,12 +37,6 @@ export const deleteOldDMs = async (username: string) => {
             if (!m.author.bot) return;
             m.delete();
         });
-
-        // const messages = discordClient.channels.cache.get((await user.createDM()).id);
-
-        // messages.each((m) => m.delete());
-
-        // const channel = await discordClient.channels.fetch(dmchannel.id);
     }
 };
 
@@ -56,9 +46,9 @@ export const sendDM = async (username: string, text: string) => {
     if (!userProfile) {
         console.error(`Failed to find Discord guild member with username ${username}. Message won't be sent.`);
     } else {
-        console.debug(`Sent message '${text}' to ${username}. Id: ${userProfile.id}`);
         try {
-            return discordClient.users.send(userProfile.id, text);
+            discordClient.users.send(userProfile.id, text);
+            console.debug(`Sent message '${text}' to ${username}. Id: ${userProfile.id}`);
         } catch (err) {
             console.error('Failed to send message', err);
         }
@@ -106,8 +96,6 @@ export const sendSignupNotifications = async (upcomingRaids: WowAuditRaidShortOv
         })
     );
 
-    console.log(completeSlackerList);
-
     for (const entry of completeSlackerList.entries()) {
         const [slacker, missingRaidDates] = entry;
 
@@ -117,33 +105,13 @@ export const sendSignupNotifications = async (upcomingRaids: WowAuditRaidShortOv
         }
 
         await deleteOldDMs(slacker.note);
-        const w = await sendDM(
+        await sendDM(
             slacker.note,
             `Čau, zapomněl ses zapsat na raid ${generateMissingSignupDays(
                 missingRaidDates
             )}. Dej nám prosím co nejdřív vědět jak to vypadá, než se Erdmoon oběsí. Dík! :heart:`
         );
-        console.log('w', w);
     }
-
-    
-
-
-    // completeSlackerList.forEach(async (missingRaidDates, slacker) => {
-    //     if (!slacker.note) {
-    //         console.error(`Somehow processing slacker ${slacker.name} without set note. Skipping...`);
-    //         return;
-    //     }
-
-    //     await deleteOldDMs(slacker.note);
-    //     const w = await sendDM(
-    //         slacker.note,
-    //         `Čau, zapomněl ses zapsat na raid ${generateMissingSignupDays(
-    //             missingRaidDates
-    //         )}. Dej nám prosím co nejdřív vědět jak to vypadá, než se Erdmoon oběsí. Dík! :heart:`
-    //     );
-    //     console.log('w', w);
-    // });
 
     return completeSlackerList;
 };

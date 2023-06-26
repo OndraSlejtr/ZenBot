@@ -58,13 +58,12 @@ const FRIDAY_IN_WEEK = 5; // Americani jsou retardi
 
 export const getUpcomingRaids = async (daysForward: number, ignoreFriday: boolean = true): Promise<WowAuditRaidList> => {
 
-    console.log('upcomingRaids');
     const today = new Date();
     const cutoffDate = new Date();
     cutoffDate.setDate(cutoffDate.getDate() + daysForward);
 
     const raids = await fetchRaids();
-    console.log('raids', raids);
+    
     const raidsInRange = raids.filter((raid) => {
         const raidDate = new Date(raid.date);
         return raidDate > today && raidDate < cutoffDate && (!ignoreFriday || raidDate.getDay() != FRIDAY_IN_WEEK);

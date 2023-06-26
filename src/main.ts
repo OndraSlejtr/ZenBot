@@ -10,24 +10,19 @@ export const main = async () => {
     await createClient();
 
     const upcomingRaids = await getUpcomingRaids(SIGNUP_CHECK_CUTOFF);
-
-    console.log(upcomingRaids);
-
-    const slackers = await sendSignupNotifications(upcomingRaids);
-
-    return slackers
+    await sendSignupNotifications(upcomingRaids);
 };
 
 const app = express();
 const port = 3000;
 
-app.get('/', async (req: any, res: any) => {
-    const u = await main();
-    res.send(u);
+app.get('/check-signups', async (req: any, res: any) => {
+    await main();
+    res.send('Done');
 });
 
 app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`);
+    console.log(`App listening on port ${port}`);
 });
 
 // Feature roadmap
