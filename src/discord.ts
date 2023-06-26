@@ -75,7 +75,7 @@ const generateMissingSignupDays = (raids: Date[]): string => {
         return daysFromNowInCzech();
     });
 
-    return `${days.length >= 3 ? days.slice(0, days.length - 2).join(', ') : ''}${days.length >= 2 ? days[days.length - 2] + ' a ' : ''}${
+    return `${days.length >= 3 ? days.slice(0, days.length - 2).join(', ') + ', ' : ''}${days.length >= 2 ? days[days.length - 2] + ' a ' : ''}${
         days[days.length - 1]
     }`;
 };
