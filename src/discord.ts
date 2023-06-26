@@ -108,7 +108,9 @@ export const sendSignupNotifications = async (upcomingRaids: WowAuditRaidShortOv
 
     console.log(completeSlackerList);
 
-    completeSlackerList.forEach(async (missingRaidDates, slacker) => {
+    for (const entry of completeSlackerList.entries()) {
+        const [slacker, missingRaidDates] = entry;
+
         if (!slacker.note) {
             console.error(`Somehow processing slacker ${slacker.name} without set note. Skipping...`);
             return;
@@ -122,7 +124,26 @@ export const sendSignupNotifications = async (upcomingRaids: WowAuditRaidShortOv
             )}. Dej nám prosím co nejdřív vědět jak to vypadá, než se Erdmoon oběsí. Dík! :heart:`
         );
         console.log('w', w);
-    });
+    }
+
+    
+
+
+    // completeSlackerList.forEach(async (missingRaidDates, slacker) => {
+    //     if (!slacker.note) {
+    //         console.error(`Somehow processing slacker ${slacker.name} without set note. Skipping...`);
+    //         return;
+    //     }
+
+    //     await deleteOldDMs(slacker.note);
+    //     const w = await sendDM(
+    //         slacker.note,
+    //         `Čau, zapomněl ses zapsat na raid ${generateMissingSignupDays(
+    //             missingRaidDates
+    //         )}. Dej nám prosím co nejdřív vědět jak to vypadá, než se Erdmoon oběsí. Dík! :heart:`
+    //     );
+    //     console.log('w', w);
+    // });
 
     return completeSlackerList;
 };
