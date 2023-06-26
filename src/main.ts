@@ -1,6 +1,7 @@
 import { SIGNUP_CHECK_CUTOFF } from './config';
 import { getUpcomingRaids } from './wowaudit';
 import { createClient, sendDM, sendSignupNotifications } from './discord';
+import * as http from "http";
 
 import 'dotenv/config';
 
@@ -14,6 +15,15 @@ export const main = async () => {
 
     sendSignupNotifications(upcomingRaids);
 };
+
+http
+  .createServer(function (req, res) {
+    res.write("Running check!"); //write a response to the client
+    main();
+    res.end(); //end the response
+  })
+  .listen(3000); //the server object listens on port 8080
+
 
 // Feature roadmap
 //
