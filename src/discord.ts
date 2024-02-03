@@ -95,6 +95,8 @@ const generateRandomGreeting = () =>
 
 const generateRandomEmoji = () => pickRandom([':heart:', ':nerd:', ':frog:', ':panda_face:', ':pray:']);
 
+const signUpChannelId: string = '945073970963677204';
+
 export const sendSignupNotifications = async (upcomingRaids: WowAuditRaidShortOverview[]) => {
     const completeSlackerList = new Map<WowAuditRaider, Date[]>();
     const raiders = await getRaiders();
@@ -129,7 +131,7 @@ export const sendSignupNotifications = async (upcomingRaids: WowAuditRaidShortOv
             slacker.note,
             `${generateRandomGreeting()}, zapomněl(a) ses zapsat na raid ${generateMissingSignupDays(
                 missingRaidDates
-            )}. Dej nám prosím co nejdřív vědět jak to vypadá, ${generateRandomPlea(slacker.class)}. Dík ${generateRandomEmoji()}`
+            )}. Dej nám prosím co nejdřív vědět, jak to vypadá, ${generateRandomPlea(slacker.class)}. Dík ${generateRandomEmoji()} \\n <#${signUpChannelId}>`
         );
     }
 
