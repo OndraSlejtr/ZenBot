@@ -13,6 +13,8 @@ export const createClient = async () => {
         console.log(`Discord client ready! Logged in as ${c.user.tag}`);
     });
 
+    console.log('Awaiting Discord client login');
+
     await discordClient.login(process.env.BOT_TOKEN);
 };
 
@@ -25,7 +27,7 @@ export const deleteOldDMs = async (username: string) => {
     const userProfile = findDiscordProfile(username);
 
     if (!userProfile) {
-        console.error(`Failed to find Discord guild member with username ${username}. Will not delate old messages.`);
+        console.error(`Failed to find Discord guild member with username ${username}. Will not delete old messages.`);
     } else {
         console.log('Deleting old DMs');
 
@@ -115,6 +117,8 @@ export const sendSignupNotifications = async (upcomingRaids: WowAuditRaidShortOv
         })
     );
 
+    console.log(`Found total of ${completeSlackerList.size} slackers.`);
+
     for (const entry of completeSlackerList.entries()) {
         const [slacker, missingRaidDates] = entry;
 
@@ -134,6 +138,8 @@ export const sendSignupNotifications = async (upcomingRaids: WowAuditRaidShortOv
             )}. Dej nám prosím co nejdřív vědět, jak to vypadá, ${generateRandomPlea(slacker.class)}. Dík ${generateRandomEmoji()} \n <#${signUpChannelId}>`
         );
     }
+
+    console.log('Notifications sent.');
 
     return completeSlackerList;
 };
