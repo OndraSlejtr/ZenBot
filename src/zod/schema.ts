@@ -51,7 +51,7 @@ export const raidDetailSchema = z.object({
             name: z.string(),
             id: z.number(),
             enabled: z.boolean(),
-            notes: z.null(),
+            notes: z.string().nullable(),
         })
     ),
 });
