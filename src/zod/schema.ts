@@ -28,7 +28,7 @@ export const raidDetailSchema = z.object({
     status: z.string(),
     present_size: z.number(),
     total_size: z.number(),
-    notes: z.null(),
+    notes: z.string().nullable(),
     selections_image: z.string().nullable(),
     signups: z.array(
         z.object({
