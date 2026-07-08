@@ -1,4 +1,4 @@
-import { nullable, z } from 'zod';
+import { z } from 'zod';
 
 const raidShortOverview = z.object({
     id: z.number(),
@@ -6,6 +6,7 @@ const raidShortOverview = z.object({
     start_time: z.string(),
     end_time: z.string(),
     instance: z.string(),
+    optional: z.boolean(),
     difficulty: z.string(),
     status: z.string(),
     present_size: z.number(),
@@ -18,42 +19,37 @@ export const raidsSchema = z.object({
     raids: innerRaidsSchema,
 });
 
-export const raidDetailSchema = z.object({
+const signupCharacterSchema = z.object({
     id: z.number(),
-    date: z.string(),
-    start_time: z.string(),
-    end_time: z.string(),
-    instance: z.string(),
-    difficulty: z.string(),
+    name: z.string(),
+    realm: z.string(),
+    class: z.string(),
+    role: z.string(),
+    guest: z.boolean(),
+});
+
+const signupSchema = z.object({
+    character: signupCharacterSchema,
     status: z.string(),
-    present_size: z.number(),
-    total_size: z.number(),
-    notes: z.null(),
+    comment: z.string().nullable(),
+    selected: z.boolean(),
+    class: z.string(),
+    role: z.string(),
+});
+
+const encounterSchema = z.object({
+    name: z.string(),
+    id: z.number(),
+    enabled: z.boolean(),
+    extra: z.boolean(),
+    notes: z.string().nullable(),
+});
+
+export const raidDetailSchema = raidShortOverview.extend({
+    notes: z.string().nullable(),
     selections_image: z.string().nullable(),
-    signups: z.array(
-        z.object({
-            character: z.object({
-                id: z.number(),
-                name: z.string(),
-                realm: z.string(),
-                class: z.string(),
-                role: z.string(),
-            }),
-            status: z.string(),
-            comment: z.string().nullable(),
-            selected: z.boolean(),
-            class: z.string(),
-            role: z.string(),
-        })
-    ),
-    encounters: z.array(
-        z.object({
-            name: z.string(),
-            id: z.number(),
-            enabled: z.boolean(),
-            notes: z.null(),
-        })
-    ),
+    signups: z.array(signupSchema),
+    encounters: z.array(encounterSchema),
 });
 
 const raiderSchema = z.object({
@@ -65,7 +61,7 @@ const raiderSchema = z.object({
     rank: z.string(),
     status: z.string(),
     note: z.string().nullable(),
-    blizzard_id: z.number().nullable(),
+    blizzard_id: z.string().nullable(),
     tracking_since: z.string(),
 });
 
